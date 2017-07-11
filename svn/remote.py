@@ -10,10 +10,13 @@ class RemoteClient(svn.common.CommonClient):
             svn.constants.LT_URL,
             *args, **kwargs)
 
-    def checkout(self, path, revision=None):
+    def checkout(self, path, revision=None, shallow=False):
         cmd = []
         if revision is not None:
             cmd += ['-r', str(revision)]
+
+        if shallow:
+            cmd += ['--depth', 'empty']
 
         cmd += [self.url, path]
 
